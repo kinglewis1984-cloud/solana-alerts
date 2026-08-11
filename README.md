@@ -16,7 +16,7 @@ free Vercel hosting, free GitHub Actions cron. No on-chain deployment, no server
 
 ### 1. Deploy the webhook receiver to Vercel
 
-```
+```sh
 npm i -g vercel      # if not already installed
 cd SolanaAlerts
 vercel --prod
@@ -33,7 +33,7 @@ Note the deployed URL, e.g. `https://solana-alerts.vercel.app`.
 
 ### 2. Register the Helius webhook
 
-```
+```sh
 cp .env.example .env
 # fill in HELIUS_API_KEY, WEBHOOK_URL (https://<your-vercel-url>/api/whale-webhook),
 # and HELIUS_WEBHOOK_SECRET (same value as step 1)
@@ -57,7 +57,7 @@ with Actions enabled — no further setup needed.
 ## Notes
 
 - `wallets.txt` ships with 2 verified addresses (Binance hot wallet, Coinbase Commerce).
-  Add more from https://solscan.io (Top Accounts) or a labeled-wallet source like Arkham —
+  Add more from [Solscan](https://solscan.io) (Top Accounts) or a labeled-wallet source like Arkham —
   don't guess addresses, a wrong one just fails silently.
 - Helius free tier: 100k credits/month, plenty for a handful of watched wallets.
 - Vercel free (Hobby) tier: serverless functions are effectively free at this volume;

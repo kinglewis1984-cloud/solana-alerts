@@ -37,7 +37,7 @@ Note the deployed URL, e.g. `https://solana-alerts.vercel.app`.
 cp .env.example .env
 # fill in HELIUS_API_KEY, WEBHOOK_URL (https://<your-vercel-url>/api/whale-webhook),
 # and HELIUS_WEBHOOK_SECRET (same value as step 1)
-pip install -r requirements.txt
+pip install -r scripts/requirements.txt
 python scripts/register_helius_webhook.py
 ```
 

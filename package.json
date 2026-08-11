@@ -1,0 +1,9 @@
+{
+  "name": "solana-alerts",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Whale-transfer webhook receiver for Vercel (price alerts run separately via GitHub Actions).",
+  "engines": {
+    "node": ">=18"
+  }
+}

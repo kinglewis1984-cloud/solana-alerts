@@ -1,0 +1,8 @@
+# Wallets watched for whale transfers (one address per line, # = comment).
+# Verified as of 2026-08-11:
+9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM   # Binance hot wallet
+2AQdpHJ2JpcEgPiATUXjQxA8QmafFegfQwSLWSprPicm   # Coinbase Commerce
+
+# To add more: pull addresses from https://solscan.io/accounts (top holders)
+# or label lookups on https://arkhamintelligence.com, then re-run
+# scripts/register_helius_webhook.py to update the Helius webhook.

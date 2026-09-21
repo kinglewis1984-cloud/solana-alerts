@@ -1,11 +1,11 @@
 {
   "solana": {
-    "price": 113.05
+    "price": 117.03
   },
   "bitcoin": {
-    "price": 80128
+    "price": 85053
   },
   "ethereum": {
-    "price": 2638.33
+    "price": 2721.89
   }
 }

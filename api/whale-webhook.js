@@ -26,6 +26,27 @@ const TOKENS = {
   "2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv": { symbol: "PENGU", min: 1_000_000 }, // ~$10k
 };
 
+// Tracked token accounts that belong to exchanges: on-chain we only see deposits/withdrawals, not their internal trades.
+const EXCHANGES = new Set([
+  "93odVNBUZpe765cesNH98w8zz1bMcF1phDkMrWW385T4", // Upbit
+  "2WGHSZKsZYfv66PRZTZjrfeSN5vZZNsggvhCRg1Zcvat", // Bithumb
+  "2X5Bf1SXvgnec7KSQw8oyxgMhBjZ99q9h3ZZVKx8EZ2E", // Bybit
+]);
+
+// What did the tracked account do? `fromT`/`toT` = the tracked token account on that side of the transfer (if any).
+function classify(eventType, fromT, toT) {
+  if (fromT && toT) return "🔁 *TRANSFER* between tracked wallets";
+  const acct = fromT || toT;
+  const out = Boolean(fromT);
+  if (EXCHANGES.has(acct)) {
+    return out
+      ? "📤 *WITHDRAWAL* from exchange (possible accumulation)"
+      : "📥 *DEPOSIT* to exchange (possible sell pressure)";
+  }
+  if (eventType === "SWAP") return out ? "🔴 *SELL* (swap)" : "🟢 *BUY* (swap)";
+  return out ? "➡️ *TRANSFER OUT* to another wallet" : "⬅️ *TRANSFER IN* from another wallet";
+}
+
 function walletLabel(address) {
   return LABELS[address] || `${address.slice(0, 4)}...${address.slice(-4)}`;
 }
@@ -81,14 +102,22 @@ module.exports = async (req, res) => {
       const min = Number(process.env[`WHALE_THRESHOLD_${tok.symbol}`] || tok.min);
       if (!(t.tokenAmount >= min)) continue;
 
+      const fromT = LABELS[t.fromTokenAccount] ? t.fromTokenAccount : null;
+      const toT = LABELS[t.toTokenAccount] ? t.toTokenAccount : null;
+      if (!fromT && !toT) continue; // route hop that doesn't touch a tracked wallet
+
       // Prefer the tracked token-account label; fall back to the owner wallet.
-      const from = LABELS[t.fromTokenAccount] ? t.fromTokenAccount : t.fromUserAccount;
-      const to = LABELS[t.toTokenAccount] ? t.toTokenAccount : t.toUserAccount;
+      const from = fromT || t.fromUserAccount;
+      const to = toT || t.toUserAccount;
       const text =
-        `🐧 *${tok.symbol} whale transfer*\n` +
-        `${t.tokenAmount.toLocaleString(undefined, { maximumFractionDigits: 0 })} ${tok.symbol}\n` +
-        `From: ${walletLabel(from || "unknown")}\n` +
-        `To: ${walletLabel(to || "unknown")}\n` +
+        `🐧 *${tok.symbol}* ${classify(event.type, fromT, toT)}
+` +
+        `${t.tokenAmount.toLocaleString(undefined, { maximumFractionDigits: 0 })} ${tok.symbol}
+` +
+        `From: ${walletLabel(from || "unknown")}
+` +
+        `To: ${walletLabel(to || "unknown")}
+` +
         `[View tx](https://solscan.io/tx/${event.signature})`;
 
       await sendTelegram(text);

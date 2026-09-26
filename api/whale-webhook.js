@@ -15,6 +15,9 @@ const LABELS = {
   "4vCmteVuPA4qnxMKxT2rhMje1yxEkLvP8DK4cEZ1YucN": "PENGU: whale #25",
   "7ooJxKNAaSztQBBdeoiNmhs5pifwPjicqC8iVbaK4Uoa": "PENGU: whale #27",
   "87qW4qsZsTabK7c5ShDArdYruKBSDRdSFD3Yy4Hjeim4": "PENGU: whale #28",
+  "93odVNBUZpe765cesNH98w8zz1bMcF1phDkMrWW385T4": "PENGU: Upbit hot wallet",
+  "2WGHSZKsZYfv66PRZTZjrfeSN5vZZNsggvhCRg1Zcvat": "PENGU: Bithumb hot wallet",
+  "2X5Bf1SXvgnec7KSQw8oyxgMhBjZ99q9h3ZZVKx8EZ2E": "PENGU: Bybit wallet",
 };
 
 // SPL tokens we alert on: mint -> symbol + default minimum size

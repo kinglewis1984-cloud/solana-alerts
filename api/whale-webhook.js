@@ -17,7 +17,7 @@ const LABELS = {
 // SPL tokens we alert on: mint -> symbol + default minimum size
 // (override per token with env WHALE_THRESHOLD_<SYMBOL>).
 const TOKENS = {
-  "2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv": { symbol: "PENGU", min: 10_000_000 }, // ~$100k
+  "2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv": { symbol: "PENGU", min: 1_000_000 }, // ~$10k
 };
 
 function walletLabel(address) {

@@ -3,6 +3,12 @@
 9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM   # Binance hot wallet
 2AQdpHJ2JpcEgPiATUXjQxA8QmafFegfQwSLWSprPicm   # Coinbase Commerce
 
+# PENGU (Pudgy Penguins) token accounts - verified on-chain 2026-09-26, mint 2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv
+FJhg2bE1PZEedxpqpXZpJKCfF2m9Z6n9MtLSe2zNo4XY   # PENGU: Fireblocks custody (Pudgy Penguins)
+9L8T8MhH4jDafq5qSKHshaVfGoySoSDTbsDU2Jc6a16T   # PENGU: Token deployer
+4fh9vfdCCqBWqcCKhYzBSuHzxkiAPCorMshLUuvmiqqT   # PENGU: unlabeled whale (owner 51yZyD...bmQU5j)
+5e2faSYutRBmAk2rEVSPaDBJUYvEosa27azuuyVVHR1t   # PENGU: unlabeled whale (owner 3XT1PN...m7SgtS)
+
 # To add more: pull addresses from https://solscan.io/accounts (top holders)
 # or label lookups on https://arkhamintelligence.com, then re-run
 # scripts/register_helius_webhook.py to update the Helius webhook.

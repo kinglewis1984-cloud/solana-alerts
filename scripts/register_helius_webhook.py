@@ -10,6 +10,8 @@ Requires in .env (see .env.example):
     HELIUS_API_KEY
     WEBHOOK_URL              e.g. https://your-project.vercel.app/api/whale-webhook
     HELIUS_WEBHOOK_SECRET    shared secret, must match Vercel env var of the same name
+Optional:
+    HELIUS_WEBHOOK_ID        if set, updates that existing webhook (PUT) instead of creating a new one
 """
 import os
 import sys
@@ -22,6 +24,7 @@ load_dotenv()
 HELIUS_API_KEY = os.environ.get("HELIUS_API_KEY", "")
 WEBHOOK_URL = os.environ.get("WEBHOOK_URL", "")
 WEBHOOK_SECRET = os.environ.get("HELIUS_WEBHOOK_SECRET", "")
+WEBHOOK_ID = os.environ.get("HELIUS_WEBHOOK_ID", "")
 
 WALLETS_FILE = os.path.join(os.path.dirname(__file__), "..", "wallets.txt")
 
@@ -46,21 +49,28 @@ def main():
 
     payload = {
         "webhookURL": WEBHOOK_URL,
-        "transactionTypes": ["TRANSFER"],
+        "transactionTypes": ["TRANSFER", "SWAP"],
         "accountAddresses": wallets,
         "webhookType": "enhanced",
         "authHeader": WEBHOOK_SECRET,
         "txnStatus": "success",
     }
 
-    resp = requests.post(
-        f"https://api.helius.xyz/v0/webhooks?api-key={HELIUS_API_KEY}",
-        json=payload,
-        timeout=30,
-    )
+    if WEBHOOK_ID:
+        resp = requests.put(
+            f"https://api.helius.xyz/v0/webhooks/{WEBHOOK_ID}?api-key={HELIUS_API_KEY}",
+            json=payload,
+            timeout=30,
+        )
+    else:
+        resp = requests.post(
+            f"https://api.helius.xyz/v0/webhooks?api-key={HELIUS_API_KEY}",
+            json=payload,
+            timeout=30,
+        )
     resp.raise_for_status()
     data = resp.json()
-    print("Webhook registered:")
+    print("Webhook updated:" if WEBHOOK_ID else "Webhook registered:")
     print(f"  id: {data.get('webhookID')}")
     print(f"  watching {len(wallets)} wallet(s)")
     print("Save the webhookID above if you need to update it later via PUT "

@@ -4,12 +4,24 @@
 
 const LAMPORTS_PER_SOL = 1_000_000_000;
 
+const LABELS = {
+  "9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM": "Binance hot wallet",
+  "2AQdpHJ2JpcEgPiATUXjQxA8QmafFegfQwSLWSprPicm": "Coinbase Commerce",
+  // PENGU token accounts (see wallets.txt)
+  "FJhg2bE1PZEedxpqpXZpJKCfF2m9Z6n9MtLSe2zNo4XY": "PENGU: Fireblocks custody",
+  "9L8T8MhH4jDafq5qSKHshaVfGoySoSDTbsDU2Jc6a16T": "PENGU: Token deployer",
+  "4fh9vfdCCqBWqcCKhYzBSuHzxkiAPCorMshLUuvmiqqT": "PENGU: whale #4",
+  "5e2faSYutRBmAk2rEVSPaDBJUYvEosa27azuuyVVHR1t": "PENGU: whale #6",
+};
+
+// SPL tokens we alert on: mint -> symbol + default minimum size
+// (override per token with env WHALE_THRESHOLD_<SYMBOL>).
+const TOKENS = {
+  "2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv": { symbol: "PENGU", min: 10_000_000 }, // ~$100k
+};
+
 function walletLabel(address) {
-  const labels = {
-    "9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM": "Binance hot wallet",
-    "2AQdpHJ2JpcEgPiATUXjQxA8QmafFegfQwSLWSprPicm": "Coinbase Commerce",
-  };
-  return labels[address] || `${address.slice(0, 4)}...${address.slice(-4)}`;
+  return LABELS[address] || `${address.slice(0, 4)}...${address.slice(-4)}`;
 }
 
 async function sendTelegram(text) {
@@ -52,6 +64,25 @@ module.exports = async (req, res) => {
         `${sol.toLocaleString(undefined, { maximumFractionDigits: 2 })} SOL\n` +
         `From: ${walletLabel(t.fromUserAccount)}\n` +
         `To: ${walletLabel(t.toUserAccount)}\n` +
+        `[View tx](https://solscan.io/tx/${event.signature})`;
+
+      await sendTelegram(text);
+    }
+
+    for (const t of event?.tokenTransfers || []) {
+      const tok = TOKENS[t.mint];
+      if (!tok) continue;
+      const min = Number(process.env[`WHALE_THRESHOLD_${tok.symbol}`] || tok.min);
+      if (!(t.tokenAmount >= min)) continue;
+
+      // Prefer the tracked token-account label; fall back to the owner wallet.
+      const from = LABELS[t.fromTokenAccount] ? t.fromTokenAccount : t.fromUserAccount;
+      const to = LABELS[t.toTokenAccount] ? t.toTokenAccount : t.toUserAccount;
+      const text =
+        `🐧 *${tok.symbol} whale transfer*\n` +
+        `${t.tokenAmount.toLocaleString(undefined, { maximumFractionDigits: 0 })} ${tok.symbol}\n` +
+        `From: ${walletLabel(from || "unknown")}\n` +
+        `To: ${walletLabel(to || "unknown")}\n` +
         `[View tx](https://solscan.io/tx/${event.signature})`;
 
       await sendTelegram(text);

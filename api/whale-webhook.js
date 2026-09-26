@@ -7,17 +7,17 @@ const LAMPORTS_PER_SOL = 1_000_000_000;
 const LABELS = {
   "9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM": "Binance hot wallet",
   "2AQdpHJ2JpcEgPiATUXjQxA8QmafFegfQwSLWSprPicm": "Coinbase Commerce",
-  // PENGU token accounts (see wallets.txt)
-  "FJhg2bE1PZEedxpqpXZpJKCfF2m9Z6n9MtLSe2zNo4XY": "PENGU: Fireblocks custody",
-  "9L8T8MhH4jDafq5qSKHshaVfGoySoSDTbsDU2Jc6a16T": "PENGU: Token deployer",
-  "4fh9vfdCCqBWqcCKhYzBSuHzxkiAPCorMshLUuvmiqqT": "PENGU: whale #4",
-  "5e2faSYutRBmAk2rEVSPaDBJUYvEosa27azuuyVVHR1t": "PENGU: whale #6",
-  "4vCmteVuPA4qnxMKxT2rhMje1yxEkLvP8DK4cEZ1YucN": "PENGU: whale #25",
-  "7ooJxKNAaSztQBBdeoiNmhs5pifwPjicqC8iVbaK4Uoa": "PENGU: whale #27",
-  "87qW4qsZsTabK7c5ShDArdYruKBSDRdSFD3Yy4Hjeim4": "PENGU: whale #28",
-  "93odVNBUZpe765cesNH98w8zz1bMcF1phDkMrWW385T4": "PENGU: Upbit hot wallet",
-  "2WGHSZKsZYfv66PRZTZjrfeSN5vZZNsggvhCRg1Zcvat": "PENGU: Bithumb hot wallet",
-  "2X5Bf1SXvgnec7KSQw8oyxgMhBjZ99q9h3ZZVKx8EZ2E": "PENGU: Bybit wallet",
+  // PENGU token accounts (label = holder rank as of 2026-09-26; EX = exchange; see wallets.txt)
+  "FJhg2bE1PZEedxpqpXZpJKCfF2m9Z6n9MtLSe2zNo4XY": "#1 Fireblocks",
+  "9L8T8MhH4jDafq5qSKHshaVfGoySoSDTbsDU2Jc6a16T": "#2 Deployer",
+  "4fh9vfdCCqBWqcCKhYzBSuHzxkiAPCorMshLUuvmiqqT": "#4 Whale",
+  "5e2faSYutRBmAk2rEVSPaDBJUYvEosa27azuuyVVHR1t": "#6 Whale",
+  "4vCmteVuPA4qnxMKxT2rhMje1yxEkLvP8DK4cEZ1YucN": "#25 Whale",
+  "7ooJxKNAaSztQBBdeoiNmhs5pifwPjicqC8iVbaK4Uoa": "#27 Whale",
+  "87qW4qsZsTabK7c5ShDArdYruKBSDRdSFD3Yy4Hjeim4": "#28 Whale",
+  "93odVNBUZpe765cesNH98w8zz1bMcF1phDkMrWW385T4": "EX #5 Upbit",
+  "2WGHSZKsZYfv66PRZTZjrfeSN5vZZNsggvhCRg1Zcvat": "EX #9 Bithumb",
+  "2X5Bf1SXvgnec7KSQw8oyxgMhBjZ99q9h3ZZVKx8EZ2E": "EX #10 Bybit",
 };
 
 // SPL tokens we alert on: mint -> symbol + default minimum size

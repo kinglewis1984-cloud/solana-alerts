@@ -23,7 +23,7 @@ const LABELS = {
 // SPL tokens we alert on: mint -> symbol + default minimum size
 // (override per token with env WHALE_THRESHOLD_<SYMBOL>).
 const TOKENS = {
-  "2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv": { symbol: "PENGU", min: 1_000_000 }, // ~$10k
+  "2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv": { symbol: "PENGU", cg: "pudgy-penguins", min: 1_000_000 }, // ~$10k
 };
 
 // Tracked token accounts that belong to exchanges: on-chain we only see deposits/withdrawals, not their internal trades.
@@ -45,6 +45,27 @@ function classify(eventType, fromT, toT) {
   }
   if (eventType === "SWAP") return out ? "🔴 *SELL* (swap)" : "🟢 *BUY* (swap)";
   return out ? "➡️ *TRANSFER OUT* to another wallet" : "⬅️ *TRANSFER IN* from another wallet";
+}
+
+// Spot price in USD + GBP from CoinGecko (cached 60s per warm instance). Never blocks or fails an alert.
+const priceCache = {};
+async function fiatValue(tok, amount) {
+  try {
+    let c = priceCache[tok.cg];
+    if (!c || Date.now() - c.at > 60_000) {
+      const res = await fetch(
+        `https://api.coingecko.com/api/v3/simple/price?ids=${tok.cg}&vs_currencies=usd,gbp`,
+        { signal: AbortSignal.timeout(3000) }
+      );
+      const j = (await res.json())[tok.cg];
+      if (!j || !(j.usd > 0) || !(j.gbp > 0)) return "";
+      c = priceCache[tok.cg] = { usd: j.usd, gbp: j.gbp, at: Date.now() };
+    }
+    const f = (n) => Math.round(n).toLocaleString("en-US");
+    return ` (~$${f(amount * c.usd)} / ~£${f(amount * c.gbp)})`;
+  } catch (e) {
+    return "";
+  }
 }
 
 function walletLabel(address) {
@@ -112,7 +133,7 @@ module.exports = async (req, res) => {
       const text =
         `🐧 *${tok.symbol}* ${classify(event.type, fromT, toT)}
 ` +
-        `${t.tokenAmount.toLocaleString(undefined, { maximumFractionDigits: 0 })} ${tok.symbol}
+        `${t.tokenAmount.toLocaleString(undefined, { maximumFractionDigits: 0 })} ${tok.symbol}${await fiatValue(tok, t.tokenAmount)}
 ` +
         `From: ${walletLabel(from || "unknown")}
 ` +

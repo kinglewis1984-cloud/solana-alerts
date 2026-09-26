@@ -11,7 +11,8 @@ from pathlib import Path
 import requests
 
 COINGECKO_URL = "https://api.coingecko.com/api/v3/simple/price"
-COINS = {"solana": "SOL", "bitcoin": "BTC", "ethereum": "ETH"}
+COINS = {"solana": "SOL", "bitcoin": "BTC", "ethereum": "ETH",
+         "pudgy-penguins": "PENGU"}  # PENGU mint 2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv
 MOVE_THRESHOLD_PCT = float(os.environ.get("PRICE_MOVE_THRESHOLD_PCT", "3"))
 
 STATE_FILE = Path(__file__).resolve().parent.parent / "state" / "price_state.json"
@@ -50,6 +51,11 @@ def send_telegram(text):
     resp.raise_for_status()
 
 
+def fmt_price(p):
+    # Sub-dollar tokens (e.g. PENGU ~$0.01) need more decimals than 2.
+    return f"{p:,.2f}" if p >= 1 else f"{p:.5f}"
+
+
 def main():
     state = load_state()
     prices = fetch_prices()
@@ -67,7 +73,7 @@ def main():
                 arrow = "🟢" if change_pct > 0 else "🔴"
                 send_telegram(
                     f"{arrow} *{symbol}* moved {direction} {abs(change_pct):.1f}%\n"
-                    f"${last_price:,.2f} → ${price:,.2f}"
+                    f"${fmt_price(last_price)} → ${fmt_price(price)}"
                 )
                 state[coin_id] = {"price": price}
         else:

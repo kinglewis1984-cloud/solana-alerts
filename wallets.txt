@@ -8,6 +8,9 @@ FJhg2bE1PZEedxpqpXZpJKCfF2m9Z6n9MtLSe2zNo4XY   # PENGU: Fireblocks custody (Pudg
 9L8T8MhH4jDafq5qSKHshaVfGoySoSDTbsDU2Jc6a16T   # PENGU: Token deployer
 4fh9vfdCCqBWqcCKhYzBSuHzxkiAPCorMshLUuvmiqqT   # PENGU: unlabeled whale (owner 51yZyD...bmQU5j)
 5e2faSYutRBmAk2rEVSPaDBJUYvEosa27azuuyVVHR1t   # PENGU: unlabeled whale (owner 3XT1PN...m7SgtS)
+4vCmteVuPA4qnxMKxT2rhMje1yxEkLvP8DK4cEZ1YucN   # PENGU: unlabeled whale #25 (owner 9evXAk...CiniHe)
+7ooJxKNAaSztQBBdeoiNmhs5pifwPjicqC8iVbaK4Uoa   # PENGU: unlabeled whale #27 (owner GEYJYu...Qc61TK)
+87qW4qsZsTabK7c5ShDArdYruKBSDRdSFD3Yy4Hjeim4   # PENGU: unlabeled whale #28 (owner AVPKzX...E3qHg5, active)
 
 # To add more: pull addresses from https://solscan.io/accounts (top holders)
 # or label lookups on https://arkhamintelligence.com, then re-run

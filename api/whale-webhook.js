@@ -12,6 +12,9 @@ const LABELS = {
   "9L8T8MhH4jDafq5qSKHshaVfGoySoSDTbsDU2Jc6a16T": "PENGU: Token deployer",
   "4fh9vfdCCqBWqcCKhYzBSuHzxkiAPCorMshLUuvmiqqT": "PENGU: whale #4",
   "5e2faSYutRBmAk2rEVSPaDBJUYvEosa27azuuyVVHR1t": "PENGU: whale #6",
+  "4vCmteVuPA4qnxMKxT2rhMje1yxEkLvP8DK4cEZ1YucN": "PENGU: whale #25",
+  "7ooJxKNAaSztQBBdeoiNmhs5pifwPjicqC8iVbaK4Uoa": "PENGU: whale #27",
+  "87qW4qsZsTabK7c5ShDArdYruKBSDRdSFD3Yy4Hjeim4": "PENGU: whale #28",
 };
 
 // SPL tokens we alert on: mint -> symbol + default minimum size

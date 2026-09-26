@@ -7,5 +7,8 @@
   },
   "ethereum": {
     "price": 2721.89
+  },
+  "pudgy-penguins": {
+    "price": 0.01001356
   }
 }

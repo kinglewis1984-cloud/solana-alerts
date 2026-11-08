@@ -1,14 +1,14 @@
 {
   "solana": {
-    "price": 89.78
+    "price": 86.44
   },
   "bitcoin": {
     "price": 75895
   },
   "ethereum": {
-    "price": 2231.87
+    "price": 2125.28
   },
   "pudgy-penguins": {
-    "price": 0.00634864
+    "price": 0.00612515
   }
 }

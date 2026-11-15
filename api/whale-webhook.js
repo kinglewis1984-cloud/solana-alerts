@@ -157,7 +157,14 @@ async function sendTelegram(text) {
   }
 }
 
+// PAUSED 2026-11-15 at user request: set ALERTS_PAUSED = false to turn whale/smart-wallet alerts back on.
+const ALERTS_PAUSED = true;
+
 module.exports = async (req, res) => {
+  if (ALERTS_PAUSED) {
+    res.status(200).json({ ok: true, paused: true });
+    return;
+  }
   if (req.method !== "POST") {
     res.status(405).json({ error: "method not allowed" });
     return;

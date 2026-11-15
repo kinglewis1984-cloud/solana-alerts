@@ -11,8 +11,8 @@ from pathlib import Path
 import requests
 
 COINGECKO_URL = "https://api.coingecko.com/api/v3/simple/price"
-COINS = {"solana": "SOL", "bitcoin": "BTC", "ethereum": "ETH",
-         "pudgy-penguins": "PENGU"}  # PENGU mint 2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv
+COINS = {"solana": "SOL", "bitcoin": "BTC", "ethereum": "ETH"}
+# PENGU paused 2026-11-15 at user request; to restore add "pudgy-penguins": "PENGU"  # PENGU mint 2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv
 MOVE_THRESHOLD_PCT = float(os.environ.get("PRICE_MOVE_THRESHOLD_PCT", "3"))
 
 STATE_FILE = Path(__file__).resolve().parent.parent / "state" / "price_state.json"
